@@ -3,10 +3,10 @@ interface Props {
   num: number
 }
 
+// 自定义hooks
 export const useStatus = (num: number) => {
   const [isOpen, setIsOpen] = useState(false)
   useEffect(() => {
-    console.log(num)
     if (num <= 0 ) {
       setIsOpen(false)
     } else {

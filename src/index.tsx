@@ -3,10 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {createStore, applyMiddleware} from "redux";
+import {Provider} from 'react-redux'
+import rootReducer from "./store/reducers";
+import {createEpicMiddleware, combineEpics} from 'redux-observable'
+import {fetchGit} from "./store/epics";
+
+const rootEpic = combineEpics(fetchGit)
+const epicMiddleware = createEpicMiddleware()
+const store = createStore(rootReducer, applyMiddleware(epicMiddleware))
+epicMiddleware.run(rootEpic)
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
